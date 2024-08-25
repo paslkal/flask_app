@@ -4,7 +4,7 @@
   {{super()}}
   <link rel="stylesheet" href="{{url_for('static', filename='blog.css')}}">
   <script>
-    window.addEventListener('load', () => {
+    function deleteMessage() {
       const btns = document.querySelectorAll('.js-delete-btn')
       btns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -15,11 +15,15 @@
             body: JSON.stringify({id: parseInt(messageId)}),
             headers: {"Content-Type": "application/json"}
           })
-
+  
           const message = document.querySelector(`.js-message-${messageId}`)
           message.remove()
         })
       })
+    }
+
+    window.addEventListener('load', () => {
+      deleteMessage()
     })
   </script>
 {% endblock %}
@@ -38,8 +42,12 @@
     <div class="js-message-{{ message['id'] }}">
       <h3>Title: {{message["title"]}} </h3>
       <p>{{message["content"]}}</p>
-      <button class="js-update-btn">Update</button>
-      <button class="js-delete-btn" data-message-id="{{message['id']}}">Delete</button>
+      <button class="js-update-btn" data-message-id="{{message['id']}}">
+        Update
+      </button>
+      <button class="js-delete-btn" data-message-id="{{message['id']}}">
+        Delete
+      </button>
     </div>
   {% endfor %}
 

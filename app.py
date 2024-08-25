@@ -102,10 +102,27 @@ def add_message():
 
     return f'<h1>Message recieved. Go back to <a href="{link_blog}">Home</a></h1>'
 
+# content -> id -> title
+# TODO: исправить порядок переменных в словаре
+@app.put('/api/message')
+def update_message():
+    data = request.get_json()
+    message_id = data['id']
+    title = data['title']
+    content = data['content']
+    new_message = {'id':message_id, 'title':title, 'content':content}
+
+
+    for index, message in enumerate(messages):
+        if message['id'] == message_id:
+            messages[index] = new_message        
+
+    return jsonify(messages)
+
 @app.delete('/api/message')
 def delete_message():
     data = request.get_json()
-    message_id = int(data['id'])
+    message_id = data['id']
 
     for message in messages:
         if message['id'] == message_id:
