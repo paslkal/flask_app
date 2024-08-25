@@ -3,6 +3,25 @@
 {% block head %}
   {{super()}}
   <link rel="stylesheet" href="{{url_for('static', filename='blog.css')}}">
+  <script>
+    window.addEventListener('load', () => {
+      const btns = document.querySelectorAll('.js-delete-btn')
+      btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const {messageId} = btn.dataset
+          
+          fetch('http://127.0.0.1:5500/api/message', {
+            method: 'DELETE',
+            body: JSON.stringify({id: parseInt(messageId)}),
+            headers: {"Content-Type": "application/json"}
+          })
+
+          const message = document.querySelector(`.js-message-${messageId}`)
+          message.remove()
+        })
+      })
+    })
+  </script>
 {% endblock %}
 
 {% block title %}Blog{% endblock %}
@@ -16,11 +35,11 @@
 
   <h2>Messages</h2>
   {% for message in messages %}
-    <div class="message">
+    <div class="js-message-{{ message['id'] }}">
       <h3>Title: {{message["title"]}} </h3>
       <p>{{message["content"]}}</p>
-      <button>Update</button>
-      <button>Delete</button>
+      <button class="js-update-btn">Update</button>
+      <button class="js-delete-btn" data-message-id="{{message['id']}}">Delete</button>
     </div>
   {% endfor %}
 

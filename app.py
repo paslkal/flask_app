@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from datetime import datetime
 
 PORT = 5500
@@ -101,6 +101,17 @@ def add_message():
     messages.append(message)
 
     return f'<h1>Message recieved. Go back to <a href="{link_blog}">Home</a></h1>'
+
+@app.delete('/api/message')
+def delete_message():
+    data = request.get_json()
+    message_id = int(data['id'])
+
+    for message in messages:
+        if message['id'] == message_id:
+            messages.remove(message)
+
+    return jsonify(messages)
 
 @app.post('/api/task')
 def add_task():
