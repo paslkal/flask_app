@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% block head %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Title{% endblock %}</title>
+  {% endblock %}
+</head>
+<body>
+  <header class="header">
+    <p>Flask Apps</p>
+    <ul>
+      <li><a href="{% block link_home %}#{% endblock %}">Home Page</a></li>      
+      <li><a href="{% block link_todo %}#{% endblock %}">TODO App</a></li>      
+      <li><a href="{% block link_blog %}#{% endblock %}">Blog</a></li>      
+    </ul>
+  </header>
+  <hr>
+
+  <main>
+    {% block main %}
+    {% endblock %}
+  </main>
+
+  <hr>
+  <footer class="footer">
+    <p>&copy; {% block year %}2012{% endblock %} Pascal</p>
+    <p>GitHub: <a href="https://github.com/paslkal" target="_blank">paslkal</a></p>
+  </footer>
+
+</body>
+</html>
