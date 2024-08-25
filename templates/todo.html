@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TODO App</title>
+</head>
+<body>
+  <header class="header">
+    Flask Apps
+    <ul>
+      <li><a href="{{link_home}}">Home Page</a></li>      
+      <li><a href="{{link_todo}}">TODO App</a></li>      
+      <li><a href="{{link_blog}}">Blog</a></li>      
+    </ul>
+  </header>
+  <hr>
+
+  <main>
+    <h1>TODO App</h1>
+    <h2>Tasks</h2>
+    {% for task in tasks %}
+      <span>{{task["content"]}}</span>
+      {% if  task["checked"] == True %}
+        <input type="checkbox" checked>
+      {% else %}  
+        <input type="checkbox" checked>
+      {% endif %}
+      <button>Update</button>
+      <button>Save</button>
+      <br>
+    {% endfor %}
+
+    <form action="/api/task" method="post">
+      <input name="content" type="text" placeholder="Enter task...">
+      <!-- <input type="submit" value="Submit"> -->
+       <button>Add task</button>
+    </form>
+  </main>
+
+  <hr>
+  <footer class="footer">
+    <p>&copy; {{year}} Pascal</p>
+    <p>GitHub: <a href="https://github.com/paslkal" target="_blank">paslkal</a></p>
+  </footer>
+
+</body>
+</html>

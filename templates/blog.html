@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pascal Blog</title>
+</head>
+<body>
+  <header class="header">
+    Flask Apps
+    <ul>
+      <li><a href="{{link_home}}">Home Page</a></li>      
+      <li><a href="{{link_todo}}">TODO App</a></li>      
+      <li><a href="{{link_blog}}">Blog</a></li>      
+    </ul>
+  </header>
+  <hr>
+  
+  <main>
+    <h1>Pascal Blog</h1>
+
+    <div class="messages">
+      <h2>Messages</h2>
+      {% for message in messages %}
+        <h3>Title: {{message["title"]}} </h3>
+        <p>{{message["content"]}}</p>
+      {% endfor %}
+    </div>
+
+    <form action="/api/message" method="post">
+      <input name="title" type="text" placeholder="Title...">
+      <input name="content" type="text" placeholder="Content...">
+      <!-- <input type="submit" value="Add"> -->
+      <button>Add Task</button>
+    </form>
+  </main>
+  
+  <hr>
+  <footer class="footer">
+    <p>&copy; {{year}} Pascal</p>
+    <p>GitHub: <a href="https://github.com/paslkal" target="_blank">paslkal</a></p>
+  </footer>
+</body>
+</html>
