@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
-{% block head %}{{super()}}{% endblock %}
+{% block head %}
+  {{super()}}
+  <link rel="stylesheet" href="{{url_for('static', filename='blog.css')}}">
+{% endblock %}
 
 {% block title %}Blog{% endblock %}
 
@@ -11,13 +14,15 @@
 {% block main%}
   <h1>Pascal Blog</h1>
 
-  <div class="messages">
-    <h2>Messages</h2>
-    {% for message in messages %}
+  <h2>Messages</h2>
+  {% for message in messages %}
+    <div class="message">
       <h3>Title: {{message["title"]}} </h3>
       <p>{{message["content"]}}</p>
-    {% endfor %}
-  </div>
+      <button>Update</button>
+      <button>Delete</button>
+    </div>
+  {% endfor %}
 
   <form action="/api/message" method="post">
     <input name="title" type="text" placeholder="Title...">
