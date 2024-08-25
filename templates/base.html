@@ -4,12 +4,12 @@
   {% block head %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
   <title>{% block title %}Title{% endblock %}</title>
   {% endblock %}
 </head>
 <body>
   <header class="header">
-    <p>Flask Apps</p>
     <ul>
       <li><a href="{% block link_home %}#{% endblock %}">Home Page</a></li>      
       <li><a href="{% block link_todo %}#{% endblock %}">TODO App</a></li>      
