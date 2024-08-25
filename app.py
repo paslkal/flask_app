@@ -28,7 +28,7 @@ def index():
     year = datetime.now().year
     
     return render_template(
-        'index.html', 
+        'home.html', 
         link_blog=link_blog, 
         link_todo=link_todo,
         link_home=link_home,
@@ -89,6 +89,8 @@ def add_message():
     title = request.form.get('title')
     content = request.form.get('content')
 
+    if (not content) or (not title):
+        return f'<h1>Didnt have title or content</h1>Go back to <a href="{link_blog}">Home</a>'
 
     message = dict(
         id=message_id, 
@@ -98,17 +100,20 @@ def add_message():
 
     messages.append(message)
 
-    return f'Message recieved. Go back to <a href="{link_blog}">Home</a>'
+    return f'<h1>Message recieved. Go back to <a href="{link_blog}">Home</a></h1>'
 
 @app.post('/api/task')
 def add_task():
     last_id = messages[-1]["id"]
     task_id = last_id + 1
     content = request.form.get('content')
+    if not content:
+        return f'<h1>Didnt have content in task. Go back to <a href="{link_blog}">Home</a></h1>'
     task = dict(id=task_id, content=content, checked=False)
+
 
     tasks.append(task)
 
-    return f'Task recieved. Go back <a href="{link_todo}">TODO App</a>'
+    return f'<h1>Task recieved. Go back <a href="{link_todo}">TODO App</a></h1>'
 
 app.run(debug=True, host=HOST, port=PORT)

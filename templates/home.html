@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block head %} {{ super() }} {% endblock %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block link_home %} {{ link_home }} {% endblock %}
+{% block link_todo %} {{ link_todo }} {% endblock %}
+{% block link_blog %} {{ link_blog }} {% endblock %}
+
+{% block main %}
+  <h1>Home Page</h1>
+  <h2>Who am I?</h2>
+  <p>
+    I am Pascal 🧑🏽‍🦱. I study Computer Science in RSSU 🎓. Making fullstack applications.
+    Love read books 📚 and play football ⚽
+  </p>
+{% endblock %}
+
+{% block year %} {{ year }} {% endblock %}
