@@ -132,13 +132,12 @@ def delete_message():
 
 @app.post('/api/task')
 def add_task():
-    last_id = messages[-1]["id"]
+    last_id = tasks[-1]["id"]
     task_id = last_id + 1
     content = request.form.get('content')
     if not content:
         return f'<h1>Didnt have content in task. Go back to <a href="{link_blog}">Home</a></h1>'
     task = dict(id=task_id, content=content, checked=False)
-
 
     tasks.append(task)
 
