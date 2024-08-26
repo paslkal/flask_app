@@ -22,8 +22,40 @@
       })
     }
 
+    function editMessage() {
+      const editButtons = document.querySelectorAll('.js-edit-btn')
+
+      editButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const {messageId} = btn.dataset
+          
+          const message = document.querySelector( `.js-message-${messageId}`)
+
+          message.classList.add('edit-mode')
+
+          console.log('edit')
+
+        })
+      })
+      
+      const saveButtons = document.querySelectorAll('.js-save-btn')
+
+      saveButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const {messageId} = btn.dataset
+          
+          const message = document.querySelector( `.js-message-${messageId}`)
+
+          message.classList.remove('edit-mode')
+
+          console.log('save')
+        })
+      })
+    }
+
     window.addEventListener('load', () => {
       deleteMessage()
+      editMessage()
     })
   </script>
 {% endblock %}
@@ -39,11 +71,14 @@
 
   <h2>Messages</h2>
   {% for message in messages %}
-    <div class="js-message-{{ message['id'] }}">
+    <div class="message js-message-{{ message['id'] }}">
       <h3>Title: {{message["title"]}} </h3>
       <p>{{message["content"]}}</p>
-      <button class="js-update-btn" data-message-id="{{message['id']}}">
-        Update
+      <button class="edit-btn js-edit-btn" data-message-id="{{message['id']}}">
+        Edit
+      </button>
+      <button class="save-btn js-save-btn" data-message-id="{{message['id']}}">
+        Save
       </button>
       <button class="js-delete-btn" data-message-id="{{message['id']}}">
         Delete

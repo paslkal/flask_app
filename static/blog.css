@@ -4,3 +4,11 @@
   margin: 5px;
   padding: 5px;
 }
+
+.save-btn {
+  display: none;
+}
+
+.edit-mode .save-btn {
+  display: inline-block;
+}
