@@ -2,12 +2,12 @@ from os import getenv
 
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 port=getenv('PSQL_PORT')
 host=getenv('PSQL_HOST')
-db=getenv('PSQL_DB')
+database=getenv('PSQL_DB')
 user=getenv('PSQL_USER')
-passwd=getenv('PSQL_PASSWD')
+password=getenv('PSQL_PASSWD')
 
-env = dict(port=port, host=host, db=db, user=user, password=passwd)
+env = dict(port=port, host=host, database=database, user=user, password=password)

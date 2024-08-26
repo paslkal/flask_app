@@ -53,7 +53,7 @@ tasks = [
     {
         "id":1,
         "content": 'Make dinner',
-        "checked": True
+        "checked":  True
     },
     {
         "id":2,
@@ -154,4 +154,6 @@ def delete_task():
     
     return jsonify(tasks)
 
-app.run(debug=True, host=HOST, port=PORT)
+if __name__=='__main__':
+    app.run(debug=True, host=HOST, port=PORT)
+    
