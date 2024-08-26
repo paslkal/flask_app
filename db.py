@@ -27,8 +27,9 @@ def create_tables():
                 """
                 create table tasks(
                 id bigserial not null primary key,
-                content varchar(50) not null,
-                checked boolean
+                title varchar(50) not null,
+                content text,
+                checked boolean not null
                 );
                 """
             )
@@ -44,7 +45,7 @@ def create_tables():
 
             cur.execute(
                 """
-                insert into tasks (content, checked) 
+                insert into tasks (title, checked) 
                 values 
                 ('Make breakfast', TRUE),
                 ('Play football', FALSE);
@@ -119,6 +120,68 @@ def delete_message(message_id):
             conn.commit()
             
             return get_messages()
+
+
+def get_tasks():
+    with connect(
+        port=port, 
+        host=host, 
+        database=database, 
+        user=user, 
+        password=password
+    ) as conn:
+
+        with conn.cursor() as cur:
+            cur.execute('select * from tasks;')
+
+            tasks = cur.fetchall()
+
+            conn.commit()
+
+            return tasks
+
+
+
+def add_task(task):
+    with connect(
+        port=port, 
+        host=host, 
+        database=database, 
+        user=user, 
+        password=password
+    ) as conn:
+        with conn.cursor() as cur:
+            title = task['title']    
+            # content = task['content']
+            checked = task['checked']    
+            cur.execute(
+                """
+                insert into tasks (title, checked)
+                values (%s, %s)
+                """, (title, checked)
+            )
+
+            conn.commit()
+
+            return get_tasks()
+
+def delete_task(task_id):
+    with connect(
+        port=port, 
+        host=host, 
+        database=database, 
+        user=user, 
+        password=password
+    ) as conn:
+        
+        with conn.cursor() as cur:
+            cur.execute('delete from tasks where id = %s;', (task_id,))
+
+            conn.commit()
+            
+            return get_tasks()
+
+
 
 
 if __name__ == '__main__':

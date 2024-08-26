@@ -7,8 +7,9 @@ create table messages(
 );
 
 create table tasks(
-    id bigserial not null primary key,
-    content varchar(50) not null,
-    checked boolean
+id bigserial not null primary key,
+title varchar(50) not null,
+content text,
+checked boolean not null
 );
 
