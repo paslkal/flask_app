@@ -36,8 +36,10 @@
           console.log('edit')
 
         })
-      })
-      
+      })      
+    }
+
+    function saveMessage() {
       const saveButtons = document.querySelectorAll('.js-save-btn')
 
       saveButtons.forEach(btn => {
@@ -51,11 +53,13 @@
           console.log('save')
         })
       })
+
     }
 
     window.addEventListener('load', () => {
       deleteMessage()
       editMessage()
+      saveMessage()
     })
   </script>
 {% endblock %}

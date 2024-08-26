@@ -29,6 +29,20 @@ header {
   }
 }
 
-footer {
+.save-btn {
+  display: none;
+}
 
+.edit-mode {
+  .save-btn {
+    display: inline-block;
+  }
+
+  .edit-btn {
+    display: none;
+  }
+}
+
+footer {
+  
 }

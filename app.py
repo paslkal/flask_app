@@ -144,4 +144,15 @@ def add_task():
 
     return f'<h1>Task recieved. Go back <a href="{link_todo}">TODO App</a></h1>'
 
+@app.delete('/api/task')
+def delete_task():
+    data = request.get_json()
+    task_id = data['id']
+
+    for task in tasks:
+        if task['id'] == task_id:
+            tasks.remove(task)
+    
+    return jsonify(tasks)
+
 app.run(debug=True, host=HOST, port=PORT)

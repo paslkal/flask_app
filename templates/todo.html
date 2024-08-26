@@ -1,6 +1,76 @@
 {% extends "base.html" %}
 
-{% block head %} {{ super() }} {% endblock %}
+{% block head %} 
+  {{ super() }}
+  <script>
+    function deleteTask() {
+      const tasks = document.querySelectorAll('.js-task')
+
+      tasks.forEach(task => {
+        const {taskId} = task.dataset
+
+        const deleteBtn = document.querySelector(`.js-delete-btn-${taskId}`)
+
+        deleteBtn.addEventListener('click', () => {
+          fetch('http://127.0.0.1:5500/api/task', {
+            method: 'DELETE',
+            body: JSON.stringify({id: taskId}),
+            headers: {"Content-Type" : 'application/json'}
+          })
+
+          task.remove()
+        })
+
+      })
+    }
+
+    function editTask() {
+      const tasks = document.querySelectorAll('.js-task')
+
+      tasks.forEach(task => {
+        const {taskId} = task.dataset
+        
+        const editBtn = document.querySelector(`.js-edit-btn-${taskId}`)
+        
+        editBtn.addEventListener('click', () => {
+          task.classList.add('edit-mode')
+
+        })
+
+      })
+
+    }
+
+    function saveTask() {
+      /*fetch('http://127.0.0.1:5500/api/task', {
+        method: 'PUT',
+        body: JSON.stringify({id: taskId}),
+        headers: {"Content-Type" : 'application/json'}
+      })*/
+
+      const tasks = document.querySelectorAll('.js-task')
+
+      tasks.forEach(task => {
+        const {taskId} = task.dataset
+        
+        const saveBtn = document.querySelector(`.js-save-btn-${taskId}`)
+        
+        saveBtn.addEventListener('click', () => {
+          task.classList.remove('edit-mode')
+
+        })
+
+      })
+
+    }
+
+    window.addEventListener('load', () => {
+      deleteTask()
+      editTask()
+      saveTask()
+    })
+  </script>
+{% endblock %}
 
 {% block title %}TODO App{% endblock %}
 
@@ -13,15 +83,18 @@
   <h1>TODO App</h1>
   <h2>Tasks</h2>
   {% for task in tasks %}
-    <span>{{task["content"]}}</span>
-    {% if  task["checked"] == True %}
-      <input type="checkbox" checked>
-    {% else %}  
-      <input type="checkbox" checked>
-    {% endif %}
-    <button>Update</button>
-    <button>Save</button>
-    <br>
+    <div class="task js-task" data-task-id="{{ task['id'] }}">
+      <span>{{ task["content"] }}</span>
+      {% if  task["checked"] == True %}
+        <input type="checkbox" checked>
+      {% else %}
+        <input type="checkbox">
+      {% endif %}
+      <button class="edit-btn js-edit-btn-{{ task['id'] }}">Edit</button>
+      <button class="save-btn js-save-btn-{{ task['id'] }}">Save</button>
+      <button class="js-delete-btn-{{ task['id'] }}">Delete</button>
+      <br>
+    </div>
   {% endfor %}
 
   <form action="/api/task" method="post">
