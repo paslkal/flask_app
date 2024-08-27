@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
+from db import get_messages
 
 PORT = 5500
 HOST = '127.0.0.1'
@@ -8,20 +9,6 @@ link_blog = f'http://{HOST}:{PORT}/blog'
 link_todo = f'http://{HOST}:{PORT}/todo'
 
 app = Flask(__name__)
-
-
-messages = [
-        {
-            "id": 1,
-            "title": 'HI',
-            "content": 'Hi',
-        },
-        {
-            "id": 2,
-            "title": 'HELLO',
-            "content": 'Hello',
-        }
-    ]
 
 @app.route('/')
 def index():
@@ -39,6 +26,8 @@ def index():
 def blog():    
 
     year = datetime.now().year
+
+    messages = get_messages()
 
     return render_template(
         'blog.html', 
