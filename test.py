@@ -1,5 +1,5 @@
 from db import get_messages, delete_message, add_message
-from db import get_tasks, delete_task, add_task
+from db import get_tasks, delete_task, add_task, change_checked_value
 
 """
 print(get_messages())
@@ -15,5 +15,6 @@ print(delete_message(5))
 
 # print(delete_task(1))
 
+# print((change_checked_value(task_id=7, checked=False)))
 
 

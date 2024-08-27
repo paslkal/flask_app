@@ -196,6 +196,29 @@ def delete_task(task_id):
             return get_tasks()
 
 
+def change_checked_value(task_id, checked):
+    with connect(
+        port=port, 
+        host=host, 
+        database=database, 
+        user=user, 
+        password=password
+    ) as conn:
+        
+        with conn.cursor() as cur:
+            cur.execute(
+                'update tasks set checked = %s where id = %s;',
+                (checked, task_id)
+            )
+
+            conn.commit()
+            
+            tasks = get_tasks()
+
+            print(tasks)
+
+            return tasks
+
 
 
 if __name__ == '__main__':

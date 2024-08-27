@@ -1,3 +1,5 @@
+url = 'http://127.0.0.1:5500'
+
 function deleteTask() {
   const tasks = document.querySelectorAll('.js-task')
 
@@ -59,8 +61,28 @@ function saveTask() {
 
 }
 
+function changeCheckbox() {
+  const checkboxes = document.querySelectorAll('input[type=checkbox]')
+
+  const handleCheckbox = (checkbox) => {
+    const {checked} = checkbox
+    const {taskId} = checkbox.dataset
+
+    fetch(`${url}/api/task/checkbox`, {
+      method: 'PUT',
+      body: JSON.stringify({id: taskId, checked}),
+      headers: {"content-type": "application/json"}
+    })
+  }
+
+  checkboxes.forEach(checkbox => 
+    checkbox.addEventListener('change', () => handleCheckbox(checkbox))
+  )
+}
+
 window.addEventListener('load', () => {
   deleteTask()
   editTask()
   saveTask()
+  changeCheckbox()
 })

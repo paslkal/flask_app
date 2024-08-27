@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
-from db import get_messages, add_message, delete_message, get_tasks, add_task,delete_task
+from db import get_messages, add_message, delete_message
+from db import get_tasks, add_task, delete_task, change_checked_value
 
 PORT = 5500
 HOST = '127.0.0.1'
@@ -60,7 +61,7 @@ def add_message_from_form():
     content = request.form.get('content')
 
     if (not(title and content)):
-        return f'<h1>Didnt have title or content</h1>Go back to <a href="{link_blog}">Home</a>'
+        return f'<h1>Didnt have title or content. Go back to <a href="{link_blog}">Home</a></h1>'
 
     message = dict(title=title, content=content)
 
@@ -84,7 +85,7 @@ def delete_message_from_page():
 def add_task_from_form():
     title = request.form.get('title')
     content = None
-    checked = True
+    checked = False
     if not title:
         return f'<h1>Didnt have content in task. Go back to <a href="{link_blog}">Home</a></h1>'
 
@@ -93,6 +94,7 @@ def add_task_from_form():
     add_task(task)
 
     return f'<h1>Task recieved. Go back <a href="{link_todo}">TODO App</a></h1>'
+
 
 @app.delete('/api/task')
 def delete_task_from_page():
@@ -104,6 +106,18 @@ def delete_task_from_page():
     tasks = get_tasks()
 
     return jsonify(tasks)
+
+
+@app.put('/api/task/checkbox')
+def change_checkbox():
+    data = request.get_json()
+
+    task_id = data['id']
+    checked = data['checked']
+
+    change_checked_value(task_id, checked)
+
+    return get_tasks()
 
 if __name__=='__main__':
     app.run(debug=True, host=HOST, port=PORT)

@@ -19,9 +19,9 @@
     <div class="task js-task" data-task-id="{{ task['id'] }}">
       <span>{{ task["title"] }}</span>
       {% if  task["checked"] == True %}
-        <input type="checkbox" checked>
+        <input type="checkbox" checked data-task-id="{{ task['id'] }}">
       {% else %}
-        <input type="checkbox">
+        <input type="checkbox" data-task-id="{{ task['id'] }}">
       {% endif %}
       <button class="edit-btn js-edit-btn-{{ task['id'] }}">Edit</button>
       <button class="save-btn js-save-btn-{{ task['id'] }}">Save</button>
