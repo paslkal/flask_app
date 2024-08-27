@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
-from db import get_messages, get_tasks
+from db import get_messages, add_message, delete_message, get_tasks
 
 PORT = 5500
 HOST = '127.0.0.1'
@@ -55,51 +55,27 @@ def todo():
     )
 
 @app.post('/api/message')
-def add_message():
-    last_id = messages[-1]["id"]
-    message_id = last_id + 1
-    # time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+def add_message_from_form():
     title = request.form.get('title')
     content = request.form.get('content')
 
-    if (not content) or (not title):
+    if (not(title and content)):
         return f'<h1>Didnt have title or content</h1>Go back to <a href="{link_blog}">Home</a>'
 
-    message = dict(
-        id=message_id, 
-        title=title, 
-        content=content,
-    )
+    message = dict(title=title, content=content)
 
-    messages.append(message)
+    add_message(message)        
 
     return f'<h1>Message recieved. Go back to <a href="{link_blog}">Home</a></h1>'
 
-# content -> id -> title
-# TODO: исправить порядок переменных в словаре
-@app.put('/api/message')
-def update_message():
-    data = request.get_json()
-    message_id = data['id']
-    title = data['title']
-    content = data['content']
-    new_message = {'id':message_id, 'title':title, 'content':content}
-
-
-    for index, message in enumerate(messages):
-        if message['id'] == message_id:
-            messages[index] = new_message        
-
-    return jsonify(messages)
-
 @app.delete('/api/message')
-def delete_message():
+def delete_message_from_page():
     data = request.get_json()
     message_id = data['id']
 
-    for message in messages:
-        if message['id'] == message_id:
-            messages.remove(message)
+    delete_message(message_id)    
+
+    messages = get_messages()
 
     return jsonify(messages)
 
