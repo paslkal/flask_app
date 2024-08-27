@@ -71,13 +71,18 @@ def get_messages():
         user=user, 
         password=password
     ) as conn:
-
         with conn.cursor() as cur:
-            cur.execute('select * from messages;')
+            cur.execute("SELECT * FROM messages")
+            rows = cur.fetchall()
 
-            messages = cur.fetchall()
+            description = cur.description
 
-            conn.commit()
+            if (not rows) or description is None:
+                return []
+
+            colnames = [desc[0] for desc in description]
+
+            messages = [dict(zip(colnames, row)) for row in rows]
 
             return messages
 
@@ -134,7 +139,16 @@ def get_tasks():
         with conn.cursor() as cur:
             cur.execute('select * from tasks;')
 
-            tasks = cur.fetchall()
+            rows = cur.fetchall()
+
+            description = cur.description
+
+            if (not rows) or description is None:
+                return []
+            
+            colnames = [desc[0] for desc in description]
+
+            tasks = [dict(zip(colnames, row)) for row in rows]
 
             conn.commit()
 
