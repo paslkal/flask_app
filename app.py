@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
-from db import get_messages
+from db import get_messages, get_tasks
 
 PORT = 5500
 HOST = '127.0.0.1'
@@ -38,28 +38,12 @@ def blog():
         link_home=link_home
     )
 
-tasks = [
-    {
-        "id":1,
-        "content": 'Make dinner',
-        "checked":  True
-    },
-    {
-        "id":2,
-        "content": 'Make HomeWork',
-        "checked": False
-    },
-    {
-        "id":3,
-        "content": 'Learn Python',
-        "cheked": True
-    },
-]
-
 @app.route('/todo')
 def todo():
     
     year = datetime.now().year
+
+    tasks = get_tasks()
 
     return render_template(
         'todo.html', 

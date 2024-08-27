@@ -17,7 +17,7 @@
   <h2>Tasks</h2>
   {% for task in tasks %}
     <div class="task js-task" data-task-id="{{ task['id'] }}">
-      <span>{{ task["content"] }}</span>
+      <span>{{ task["title"] }}</span>
       {% if  task["checked"] == True %}
         <input type="checkbox" checked>
       {% else %}
