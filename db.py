@@ -151,8 +151,10 @@ def get_tasks():
             tasks = [dict(zip(colnames, row)) for row in rows]
 
             conn.commit()
+            
+            sorted_tasks = sorted(tasks, key=lambda task: task['id'])
 
-            return tasks
+            return sorted_tasks
 
 
 
