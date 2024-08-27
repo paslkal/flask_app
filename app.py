@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
-from db import get_messages, add_message, delete_message, get_tasks
+from db import get_messages, add_message, delete_message, get_tasks, add_task,delete_task
 
 PORT = 5500
 HOST = '127.0.0.1'
@@ -79,28 +79,30 @@ def delete_message_from_page():
 
     return jsonify(messages)
 
+# TODO: dont hard coding content and cheked variables
 @app.post('/api/task')
-def add_task():
-    last_id = tasks[-1]["id"]
-    task_id = last_id + 1
-    content = request.form.get('content')
-    if not content:
+def add_task_from_form():
+    title = request.form.get('title')
+    content = None
+    checked = True
+    if not title:
         return f'<h1>Didnt have content in task. Go back to <a href="{link_blog}">Home</a></h1>'
-    task = dict(id=task_id, content=content, checked=False)
 
-    tasks.append(task)
+    task = dict(title=title, content=content, checked=checked)
+
+    add_task(task)
 
     return f'<h1>Task recieved. Go back <a href="{link_todo}">TODO App</a></h1>'
 
 @app.delete('/api/task')
-def delete_task():
+def delete_task_from_page():
     data = request.get_json()
     task_id = data['id']
 
-    for task in tasks:
-        if task['id'] == task_id:
-            tasks.remove(task)
-    
+    delete_task(task_id)
+
+    tasks = get_tasks()
+
     return jsonify(tasks)
 
 if __name__=='__main__':

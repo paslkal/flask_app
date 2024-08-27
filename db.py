@@ -166,13 +166,13 @@ def add_task(task):
     ) as conn:
         with conn.cursor() as cur:
             title = task['title']    
-            # content = task['content']
+            content = task['content']
             checked = task['checked']    
             cur.execute(
                 """
-                insert into tasks (title, checked)
-                values (%s, %s)
-                """, (title, checked)
+                insert into tasks (title, content, checked)
+                values (%s, %s, %s)
+                """, (title, content, checked)
             )
 
             conn.commit()
