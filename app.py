@@ -84,7 +84,7 @@ def add_task_from_form():
 
     add_task(task)
 
-    return f'<h1>Task recieved. Go back <a href="{url_for('todo')}">TODO App</a></h1>', 201
+    return f'<h1>Task recieved. Go back to <a href="{url_for('todo')}">TODO App</a></h1>', 201
 
 
 @app.delete('/api/task/<int:task_id>')
