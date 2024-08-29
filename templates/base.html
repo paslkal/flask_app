@@ -11,9 +11,9 @@
 <body>
   <header class="header">
     <ul>
-      <li><a href="{% block link_home %}#{% endblock %}">Home Page</a></li>      
-      <li><a href="{% block link_todo %}#{% endblock %}">TODO App</a></li>      
-      <li><a href="{% block link_blog %}#{% endblock %}">Blog</a></li>      
+      <li><a href="{{ url_for('home') }}">Home Page</a></li>      
+      <li><a href="{{ url_for('todo') }}">TODO App</a></li>      
+      <li><a href="{{ url_for('blog') }}">Blog</a></li>      
     </ul>
   </header>
   <hr>
