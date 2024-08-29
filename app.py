@@ -1,7 +1,10 @@
-from flask import Flask, render_template, request, jsonify, url_for
+from flask import Flask, render_template, request, jsonify, url_for, send_file
 from datetime import datetime
 from db import get_messages, add_message, delete_message
 from db import get_tasks, add_task, delete_task, change_checked_value
+from rembg import remove
+from PIL import Image
+from io import BytesIO
 
 PORT = 5500
 HOST = '127.0.0.1'
@@ -11,10 +14,10 @@ link_todo = f'http://{HOST}:{PORT}/todo'
 
 app = Flask(__name__)
 
+year = datetime.now().year
+
 @app.route('/')
-def home():
-    year = datetime.now().year
-    
+def home():    
     return render_template(
         'home.html', 
         year=year,
@@ -23,9 +26,6 @@ def home():
 
 @app.route('/blog')
 def blog():    
-
-    year = datetime.now().year
-
     messages = get_messages()
 
     return render_template(
@@ -36,10 +36,7 @@ def blog():
     )
 
 @app.route('/todo')
-def todo():
-    
-    year = datetime.now().year
-
+def todo():    
     tasks = get_tasks()
 
     return render_template(
@@ -105,6 +102,33 @@ def change_checkbox():
     change_checked_value(task_id, checked)
 
     return get_tasks()
+
+@app.route('/rmbg', methods=['GET', 'POST'])
+def rmbg():
+    if request.method == 'POST':
+        files = request.files
+        if 'file' not in files:
+            response = f'<h1>No file uploaded. <a href="{url_for('rmbg')}">Go back</a></h1>' 
+            return response, 400
+        
+        file = files['file']
+
+        if file.filename == '':
+            response = f'<h1>No file selected. <a href="{url_for('rmbg')}">Go back</a></h1>'
+            return response, 400
+        
+        input_image = Image.open(file.stream)
+        output_image = remove(input_image, post_process_mask=True)
+        img_io = BytesIO()
+        output_image.save(img_io, 'PNG')
+        img_io.seek(0)
+        return send_file(img_io, mimetype=file.mimetype, as_attachment=True, download_name='_rmbg.png')
+
+    return render_template(
+        'rmbg.html', 
+        title='Remove Background App',
+        year=year
+    )
 
 if __name__=='__main__':
     app.run(debug=True, host=HOST, port=PORT)
