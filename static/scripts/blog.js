@@ -4,11 +4,7 @@ function deleteMessage() {
     btn.addEventListener('click', () => {
       const {messageId} = btn.dataset
       
-      fetch('http://127.0.0.1:5500/api/message', {
-        method: 'DELETE',
-        body: JSON.stringify({id: parseInt(messageId)}),
-        headers: {"Content-Type": "application/json"}
-      })
+      fetch(`http://127.0.0.1:5500/api/message/${messageId}`, {method: 'DELETE'})
 
       const message = document.querySelector(`.js-message-${messageId}`)
       message.remove()

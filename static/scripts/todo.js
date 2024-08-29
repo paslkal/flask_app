@@ -9,11 +9,7 @@ function deleteTask() {
     const deleteBtn = document.querySelector(`.js-delete-btn-${taskId}`)
 
     deleteBtn.addEventListener('click', () => {
-      fetch('http://127.0.0.1:5500/api/task', {
-        method: 'DELETE',
-        body: JSON.stringify({id: taskId}),
-        headers: {"Content-Type" : 'application/json'}
-      })
+      fetch(`http://127.0.0.1:5500/api/task/${taskId}`, { method: 'DELETE' })
 
       task.remove()
     })

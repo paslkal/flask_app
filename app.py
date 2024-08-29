@@ -69,11 +69,8 @@ def add_message_from_form():
 
     return f'<h1>Message recieved. Go back to <a href="{link_blog}">Home</a></h1>'
 
-@app.delete('/api/message')
-def delete_message_from_page():
-    data = request.get_json()
-    message_id = data['id']
-
+@app.delete('/api/message/<int:message_id>')
+def delete_message_from_page(message_id):
     delete_message(message_id)    
 
     messages = get_messages()
@@ -96,13 +93,9 @@ def add_task_from_form():
     return f'<h1>Task recieved. Go back <a href="{link_todo}">TODO App</a></h1>'
 
 
-@app.delete('/api/task')
-def delete_task_from_page():
-    data = request.get_json()
-    task_id = data['id']
-
+@app.delete('/api/task/<int:task_id>')
+def delete_task_from_page(task_id):
     delete_task(task_id)
-
     tasks = get_tasks()
 
     return jsonify(tasks)
