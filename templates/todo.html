@@ -5,7 +5,7 @@
   <script src="{{ url_for('static', filename='scripts/todo.js') }}"></script>
 {% endblock %}
 
-{% block title %}TODO App{% endblock %}
+{% block title %} {{ title }} {% endblock %}
 
 {% block link_home %} {{ link_home }} {% endblock %}
 {% block link_todo %} {{ link_todo }} {% endblock %}
@@ -13,7 +13,7 @@
 
 {% block main %}
 
-  <h1>TODO App</h1>
+  <h1> {{ title }} </h1>
   <h2>Tasks</h2>
   {% for task in tasks %}
     <div class="task js-task" data-task-id="{{ task['id'] }}">

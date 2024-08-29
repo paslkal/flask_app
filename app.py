@@ -12,7 +12,7 @@ link_todo = f'http://{HOST}:{PORT}/todo'
 app = Flask(__name__)
 
 @app.route('/')
-def index():
+def home():
     year = datetime.now().year
     
     return render_template(
@@ -20,7 +20,8 @@ def index():
         link_blog=link_blog, 
         link_todo=link_todo,
         link_home=link_home,
-        year=year
+        year=year,
+        title='Home Page'
     )
 
 @app.route('/blog')
@@ -36,7 +37,8 @@ def blog():
         year=year, 
         link_blog=link_blog, 
         link_todo=link_todo,
-        link_home=link_home
+        link_home=link_home,
+        title='Pascal Blog'
     )
 
 @app.route('/todo')
@@ -52,7 +54,8 @@ def todo():
         link_blog=link_blog, 
         link_todo=link_todo,
         link_home=link_home,
-        year=year
+        year=year,
+        title='Pascal TODO App'
     )
 
 @app.post('/api/message')
@@ -67,7 +70,7 @@ def add_message_from_form():
 
     add_message(message)        
 
-    return f'<h1>Message recieved. Go back to <a href="{link_blog}">Home</a></h1>'
+    return f'<h1>Message recieved. Go back to <a href="{link_blog}">Home</a></h1>', 201
 
 @app.delete('/api/message/<int:message_id>')
 def delete_message_from_page(message_id):
@@ -90,7 +93,7 @@ def add_task_from_form():
 
     add_task(task)
 
-    return f'<h1>Task recieved. Go back <a href="{link_todo}">TODO App</a></h1>'
+    return f'<h1>Task recieved. Go back <a href="{link_todo}">TODO App</a></h1>', 201
 
 
 @app.delete('/api/task/<int:task_id>')
