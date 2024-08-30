@@ -117,12 +117,19 @@ def rmbg():
             response = f'<h1>No file selected. <a href="{url_for('rmbg')}">Go back</a></h1>'
             return response, 400
         
+        if file.content_type != 'image/png':
+            response = f'<h1>This file is not an image. <a href="{url_for('rmbg')}">Go back</a></h1>'
+            return response, 400
+        
         input_image = Image.open(file.stream)
         output_image = remove(input_image, post_process_mask=True)
         img_io = BytesIO()
         output_image.save(img_io, 'PNG')
         img_io.seek(0)
-        return send_file(img_io, mimetype=file.mimetype, as_attachment=True, download_name='_rmbg.png')
+        return send_file(img_io, 
+                         mimetype=file.mimetype, 
+                         as_attachment=True, 
+                         download_name='_rmbg.png')
 
     return render_template(
         'rmbg.html', 
