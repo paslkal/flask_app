@@ -12,13 +12,15 @@ link_todo = f'http://{HOST}:{PORT}/todo'
 
 app = Flask(__name__)
 
-year = datetime.now().year
+def get_year():
+    year = datetime.now().year
+    return year
 
 @app.route('/')
 def home():    
     return render_template(
         'home.html', 
-        year=year,
+        year=get_year(),
         title='Home Page'
     )
 
@@ -29,7 +31,7 @@ def blog():
     return render_template(
         'blog.html', 
         messages=messages, 
-        year=year, 
+        year=get_year(), 
         title='Pascal Blog'
     )
 
@@ -40,7 +42,7 @@ def todo():
     return render_template(
         'todo.html', 
         tasks=tasks,
-        year=year,
+        year=get_year(),
         title='Pascal TODO App'
     )
 
@@ -129,7 +131,7 @@ def rmbg():
     return render_template(
         'rmbg.html', 
         title='Remove Background App',
-        year=year
+        year=get_year()
     )
 
 if __name__=='__main__':
