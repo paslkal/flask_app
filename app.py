@@ -2,9 +2,7 @@ from flask import Flask, render_template, request, jsonify, url_for, send_file
 from datetime import datetime
 from db import get_messages, add_message, delete_message
 from db import get_tasks, add_task, delete_task, change_checked_value
-from rembg import remove
-from PIL import Image
-from io import BytesIO
+from rmbg import remove_background
 
 PORT = 5500
 HOST = '127.0.0.1'
@@ -121,11 +119,8 @@ def rmbg():
             response = f'<h1>This file is not an image. <a href="{url_for('rmbg')}">Go back</a></h1>'
             return response, 400
         
-        input_image = Image.open(file.stream)
-        output_image = remove(input_image, post_process_mask=True)
-        img_io = BytesIO()
-        output_image.save(img_io, 'PNG')
-        img_io.seek(0)
+        img_io = remove_background(file)
+
         return send_file(img_io, 
                          mimetype=file.mimetype, 
                          as_attachment=True, 
