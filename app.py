@@ -3,9 +3,10 @@ from datetime import datetime
 from db import get_messages, add_message, delete_message
 from db import get_tasks, add_task, delete_task, change_checked_value
 from rmbg import remove_background
+from env import flask_port, flask_host
 
-PORT = 5500
-HOST = '127.0.0.1'
+PORT = flask_port
+HOST = flask_host
 link_home = f'http://{HOST}:{PORT}/'
 link_blog = f'http://{HOST}:{PORT}/blog'
 link_todo = f'http://{HOST}:{PORT}/todo'
